@@ -1,0 +1,54 @@
+NAME
+    List::Extract - grep and splice combined
+
+SYNOPSIS
+        use List::Extract 'extract';
+
+        my @foo = 0 .. 9;
+        my @odd = extract { $_ % 2 } @foo;
+
+        print "Odd : @odd\n";
+        print "Even: @foo\n";
+
+        __END__
+        Odd : 1 3 5 7 9
+        Even: 0 2 4 6 8
+
+DESCRIPTION
+    "List::Util" exports a "grep"-like routine called "extract" that both
+    returns and extracts the elements that tests true. It's "grep" and
+    "splice" combined.
+
+EXPORTED FUNCTIONS
+    Nothing is exported by default. The :ALL tag exports everything that can
+    be exported.
+
+    extract BLOCK ARRAY
+        Returns and removes the elements from array for which "BLOCK"
+        returns true. In "BLOCK" the elements in "ARRAY" will be accessible
+        through $_. Modifications to $_ will be preserved in the returned
+        list, but discarded for elements left in the array.
+
+            my @keywords = qw/ foo !bar baz /;
+
+            my @exclude = extract { s/^!// } @keywords;
+
+            print "@keywords\n";
+            print "@exclude\n";
+
+            __END__
+            foo baz
+            bar
+
+AUTHOR
+    Johan Lodin <lodin@cpan.org>
+
+COPYRIGHT
+    Copyright 2007 Johan Lodin. All rights reserved.
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    List::Part
+
