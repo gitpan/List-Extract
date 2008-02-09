@@ -1,9 +1,10 @@
 package List::Extract;
 use 5.006001;
 
-$VERSION = 0.01;
+$VERSION = 0.02;
 
-use base 'Exporter';
+use Exporter;
+@ISA = Exporter::;
 @EXPORT_OK = qw/ extract /;
 $EXPORT_TAGS{ALL} = \@EXPORT_OK;
 
@@ -40,15 +41,16 @@ List::Extract - grep and splice combined
 
     use List::Extract 'extract';
 
-    my @foo = 0 .. 9;
-    my @odd = extract { $_ % 2 } @foo;
+    my @keywords = qw/ foo !bar baz /;
 
-    print "Odd : @odd\n";
-    print "Even: @foo\n";
+    my @exclude = extract { s/^!// } @keywords;
+
+    print "@keywords\n";
+    print "@exclude\n";
 
     __END__
-    Odd : 1 3 5 7 9
-    Even: 0 2 4 6 8
+    foo baz
+    bar
 
 
 =head1 DESCRIPTION
@@ -62,20 +64,13 @@ Nothing is exported by default. The :ALL tag exports everything that can be expo
 
 =over
 
-=item extract BLOCK ARRAY
+=item $count = extract BLOCK ARRAY
 
-Returns and removes the elements from array for which C<BLOCK> returns true. In C<BLOCK> the elements in C<ARRAY> will be accessible through C<$_>. Modifications to C<$_> will be preserved in the returned list, but discarded for elements left in the array.
+=item @extracted = extract BLOCK ARRAY
 
-    my @keywords = qw/ foo !bar baz /;
+Removes the elements from array for which C<BLOCK> returns true. In list context the elements are returned in original order. In scalar context the number of removed elements is returned.
 
-    my @exclude = extract { s/^!// } @keywords;
-
-    print "@keywords\n";
-    print "@exclude\n";
-
-    __END__
-    foo baz
-    bar
+In C<BLOCK> the elements in C<ARRAY> will be accessible through C<$_>. Modifications to C<$_> will be preserved in the returned list, but discarded for elements left in the array.
 
 =back
 
@@ -87,7 +82,7 @@ Johan Lodin <lodin@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2007 Johan Lodin. All rights reserved.
+Copyright 2007-2008 Johan Lodin. All rights reserved.
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
