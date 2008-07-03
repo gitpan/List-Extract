@@ -4,19 +4,23 @@ NAME
 SYNOPSIS
         use List::Extract 'extract';
 
-        my @keywords = qw/ foo !bar baz /;
+        my @keywords = qw/
+             foo
+            !bar
+             baz
+        /;
 
         my @exclude = extract { s/^!// } @keywords;
 
-        print "@keywords\n";
-        print "@exclude\n";
+        print "Keywords: @keywords\n";
+        print "Exclude: @exclude\n";
 
         __END__
-        foo baz
-        bar
+        Keywords: foo baz
+        Exclude: bar
 
 DESCRIPTION
-    "List::Util" exports a "grep"-like routine called "extract" that both
+    "List::Extract" exports a "grep"-like routine called "extract" that both
     returns and extracts the elements that tests true. It's "grep" and
     "splice" combined.
 

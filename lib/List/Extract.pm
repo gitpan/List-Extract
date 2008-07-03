@@ -1,7 +1,7 @@
 package List::Extract;
 use 5.006001;
 
-$VERSION = 0.02;
+$VERSION = 0.03;
 
 use Exporter;
 @ISA = Exporter::;
@@ -41,21 +41,25 @@ List::Extract - grep and splice combined
 
     use List::Extract 'extract';
 
-    my @keywords = qw/ foo !bar baz /;
+    my @keywords = qw/
+         foo
+        !bar
+         baz
+    /;
 
     my @exclude = extract { s/^!// } @keywords;
 
-    print "@keywords\n";
-    print "@exclude\n";
+    print "Keywords: @keywords\n";
+    print "Exclude: @exclude\n";
 
     __END__
-    foo baz
-    bar
+    Keywords: foo baz
+    Exclude: bar
 
 
 =head1 DESCRIPTION
 
-C<List::Util> exports a C<grep>-like routine called C<extract> that both returns and extracts the elements that tests true. It's C<grep> and C<splice> combined.
+C<List::Extract> exports a C<grep>-like routine called C<extract> that both returns and extracts the elements that tests true. It's C<grep> and C<splice> combined.
 
 
 =head1 EXPORTED FUNCTIONS
